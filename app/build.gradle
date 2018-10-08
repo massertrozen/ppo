@@ -1,13 +1,39 @@
 apply plugin: 'com.android.application'
 
+ext.versionMajor = 0
+ext.versionMinor = 0
+ext.versionPatch = 0
+ext.minimumSdkVersion = 23
+
 android {
     compileSdkVersion 28
+
+    def getVersionName = { ->
+        def version = new ByteArrayOutputStream()
+
+        exec {
+            commandLine 'git', 'describe'
+            standardOutput = version
+        }
+        ext.versionMajor = Integer.valueOf(version.toString().trim().split('\\.')[0])
+        ext.versionMinor = Integer.valueOf(version.toString().trim().split('\\.')[1].split("\\-")[0])
+        ext.versionPatch = Integer.valueOf(version.toString().trim().split('\\.')[1].split("\\-")[1])
+
+        return ext.versionMajor + "." + ext.versionMinor + "." + ext.versionPatch
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "PPOAPP-${variant.versionName}.apk"
+        }
+    }
+
     defaultConfig {
         applicationId "com.skywex.ppoapp"
-        minSdkVersion 23
+        minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionName getVersionName()
+        versionCode generateVersionCode()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,6 +42,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
 }
 
 dependencies {

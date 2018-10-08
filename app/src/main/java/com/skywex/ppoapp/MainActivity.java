@@ -3,6 +3,7 @@ package com.skywex.ppoapp;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,17 +61,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mTextMessage = (TextView) findViewById(R.id.message);
         TextView imei_value = (TextView) findViewById(R.id.imei_value);
+        TextView version_value = (TextView) findViewById(R.id.version_value);
         Button request_permission = (Button) findViewById(R.id.request_permission);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         request_permission.setOnClickListener(this);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        version_value.setText("Версия: " + version);
+
         if (checkPermission()) {
             imei_value.setText("IMEI: " + getIMEI(this));
             imei_value.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             request_permission.setVisibility(View.VISIBLE);
             Snackbar.make(navigation, "Please, give application permission to access your IMEI.", Snackbar.LENGTH_LONG).show();
         }

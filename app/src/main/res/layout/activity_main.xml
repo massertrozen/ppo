@@ -38,6 +38,14 @@
             android:visibility="gone"
             android:text="IMEI:" />
 
+        <TextView
+            android:id="@+id/version_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imei_value"
+            android:layout_centerInParent="true"
+            android:text="Версия:" />
+
         <Button
             android:id="@+id/request_permission"
             android:layout_width="match_parent"
