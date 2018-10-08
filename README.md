@@ -1,4 +1,5 @@
 # PPO app
-v.0.0.1
+v.0.0.3
 
-+ created an Andoid 6.0+ application;
++ created an empty template Andoid 6.0+ application;
++ added runtime-permissions;
