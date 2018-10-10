@@ -42,8 +42,8 @@ android {
         minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 28
         versionName getVersionName()
-        versionCode generateVersionCode()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
@@ -51,6 +51,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
+        debug {
+            signingConfig signingConfigs.config
+            versionNameSuffix '-dev'
+        }
+    }
+    productFlavors {
     }
 }
 

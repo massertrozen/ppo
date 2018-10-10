@@ -1,6 +1,7 @@
 package com.skywex.ppoapp;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!BuildConfig.DEBUG) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        }
 
         mTextMessage = findViewById(R.id.message);
         TextView imei_value = findViewById(R.id.imei_value);
