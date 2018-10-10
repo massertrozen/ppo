@@ -43,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imei_value"
+            android:layout_marginTop="15dp"
             android:layout_centerInParent="true"
             android:text="Версия:" />
 
